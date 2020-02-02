@@ -1,0 +1,46 @@
+﻿@page "/"
+@namespace BlazorAspnetHostedOidcJS.Server.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlazorDualMode</title>
+    <base href="~/" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="css/site.css" rel="stylesheet" />
+    <script src="js/oidc-client.min.js"></script>
+    <script src="js/user-manager-initialize.js"></script>
+    <script>
+        var browserSupportsWasm = function () {
+        try {
+            if (typeof WebAssembly === "object"
+                && typeof WebAssembly.instantiate === "function") {
+                const module = new WebAssembly.Module(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
+                if (module instanceof WebAssembly.Module)
+                    return new WebAssembly.Instance(module) instanceof WebAssembly.Instance;
+            }
+        } catch (e) {
+        }
+        return false;
+    }();
+    </script>
+</head>
+<body>
+    <app>
+        @(await Html.RenderComponentAsync<Client.App>(RenderMode.ServerPrerendered))
+    </app>
+    <script type="text/javascript">
+        if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+            document.write('<script src="js/blazor.polyfill.min.js"><\/script>');
+        }
+    </script>
+    <script id="blazorMode"></script>
+    <script>
+        var windowLocationSearch = window.location.search;
+        document.getElementById("blazorMode").src = windowLocationSearch.indexOf("mode=server") > -1 || !browserSupportsWasm ? "_framework/blazor.server.js" : "_framework/blazor.webassembly.js";
+    </script>
+</body>
+</html>
