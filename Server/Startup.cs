@@ -18,7 +18,7 @@ namespace BlazorAspnetHostedOidcJS.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddServerSideBlazor();
+            services.AddServerSideBlazor(options => options.DetailedErrors = true);
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(

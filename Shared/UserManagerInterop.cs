@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using BlazorAspnetHostedOidcJS.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
@@ -54,10 +55,10 @@ namespace BlazorAspnetHostedOidcJS.Shared
 			var success = await _jsRuntime.InvokeAsync<string>("authenticationService.login");
 
 		}
-		public async Task<string> GetUser()
+		public async Task<OidcUser> GetUser()
 		{
 
-			var success = await _jsRuntime.InvokeAsync<string>("authenticationService.getUser");
+			var success = await _jsRuntime.InvokeAsync<OidcUser>("authenticationService.getUser");
 			return success;
 		}
 
