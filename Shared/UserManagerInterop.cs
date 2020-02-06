@@ -55,6 +55,12 @@ namespace BlazorAspnetHostedOidcJS.Shared
 			var success = await _jsRuntime.InvokeAsync<string>("authenticationService.login");
 
 		}
+		public async Task Logout()
+		{
+
+			var success = await _jsRuntime.InvokeAsync<string>("authenticationService.logout");
+
+		}
 		public async Task<OidcUser> GetUser()
 		{
 

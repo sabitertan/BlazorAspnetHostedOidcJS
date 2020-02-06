@@ -6,34 +6,56 @@
 </div>
 
 <div class="main">
+    
+
+
+
     <div class="top-row px-4">
+        @if (oidcUser != null && oidcUser.Profile?.GivenName != null)
+        {
+            <span> Welcome @oidcUser.Profile.GivenName </span>
+            <button type="button" class="btn btn-primary" @onclick="@((e) => Logout())">Logout</button>
+        }
+        else
+        {
+            <span> Please login</span>
+            <button type="button" class="btn btn-primary" @onclick="@((e) => Login())">Login</button>
+        }
+
         <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
     </div>
-    <div class="top-row px-4">
-        <button class="ml-md-auto" @onclick="@((e)=>Login())">Login</button>
-    </div>
+    
 
     <div class="content px-4">
         @Body
     </div>
 </div>
-@code{     
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+@code{   
+    public OidcUser oidcUser { get; set; }
+    protected override async Task OnInitializedAsync()
     {
+        
         try
         {
-             var user = await UserManager.GetUser();
+            oidcUser = await UserManager.GetUser();
+            if (oidcUser != null) {
+                StateHasChanged();
+            }
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
             //throw;
         }
-       
-        await base.OnAfterRenderAsync(firstRender);
+        await base.OnInitializedAsync();
+        
     }
     private async Task Login() {
 
         await UserManager.Login();
+    }
+    private async Task Logout() {
+
+        await UserManager.Logout();
     }
  }
