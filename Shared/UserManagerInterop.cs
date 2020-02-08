@@ -67,6 +67,11 @@ namespace BlazorAspnetHostedOidcJS.Shared
 			var success = await _jsRuntime.InvokeAsync<OidcUser>("authenticationService.getUser");
 			return success;
 		}
+		public async Task<OidcUser> SilentRenew()
+		{
 
+			var success = await _jsRuntime.InvokeAsync<OidcUser>("authenticationService.silentRenew");
+			return success;
+		}
 	}
 }

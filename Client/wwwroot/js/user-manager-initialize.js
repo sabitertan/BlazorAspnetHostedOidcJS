@@ -44,3 +44,32 @@ window.authenticationService = {
         UserManager.signoutRedirect();
     }
 };
+
+///////////////////////////////
+// events
+///////////////////////////////
+UserManager.events.addAccessTokenExpiring(function () {
+    console.log("token expiring");
+    log("token expiring");
+});
+
+UserManager.events.addAccessTokenExpired(function () {
+    console.log("token expired");
+    log("token expired");
+});
+
+UserManager.events.addSilentRenewError(function (e) {
+    console.log("silent renew error", e.message);
+    log("silent renew error", e.message);
+});
+
+UserManager.events.addUserLoaded(function (user) {
+    console.log("user loaded", user);
+    UserManager.getUser().then(function () {
+        console.log("getUser loaded user after userLoaded event fired");
+    });
+});
+
+UserManager.events.addUserUnloaded(function (e) {
+    console.log("user unloaded");
+});
