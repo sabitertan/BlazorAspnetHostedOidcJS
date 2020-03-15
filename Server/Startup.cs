@@ -19,11 +19,6 @@ namespace BlazorAspnetHostedOidcJS.Server
         {
             services.AddMvc();
             services.AddServerSideBlazor(options => options.DetailedErrors = true);
-            services.AddResponseCompression(opts =>
-            {
-                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-                    new[] { "application/octet-stream" });
-            });
             // Server Side Blazor doesn't register HttpClient by default
             if (!services.Any(x => x.ServiceType == typeof(HttpClient)))
             {
@@ -47,16 +42,16 @@ namespace BlazorAspnetHostedOidcJS.Server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseResponseCompression();
+           
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBlazorDebugging();
+                app.UseWebAssemblyDebugging();
             }
 
             app.UseStaticFiles();
-            app.UseClientSideBlazorFiles<Client.Program>();
+            app.UseBlazorFrameworkFiles();
 
             app.UseRouting();
 
